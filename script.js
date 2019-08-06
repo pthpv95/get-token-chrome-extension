@@ -1,14 +1,14 @@
 var tokenBtn = document.getElementById("get-token-btn")
-var sandbox = document.getElementById("sandbox")
-
-sandbox.onclick = function(e) {}
+// var sandbox = document.getElementById("sandbox")
+// sandbox.onclick = function(e) {}
 
 tokenBtn.onclick = function() {
   chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
     chrome.tabs.executeScript(tabs[0].id, { file: "content.js" })
     chrome.runtime.onMessage.addListener(function(message) {
-      // sandbox.innerHTML = message.token
-      copyClipboard(message.token)
+      if(message && message.token){
+        copyClipboard(message.token)
+      }
       window.close()
     })
   })
